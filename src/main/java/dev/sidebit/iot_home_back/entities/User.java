@@ -5,6 +5,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
+import dev.sidebit.iot_home_back.entities.enums.TicketStatus;
+import dev.sidebit.iot_home_back.entities.enums.UserRole;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -25,18 +27,21 @@ private String email;
 private String password;
 private String phone;
 
+private Integer userRole;
+
 @OneToMany(mappedBy = "client")
 private List<Ticket> tickets = new ArrayList<>();
 
 public User() {}
 
-public User(Integer id, String name, String email, String password, String phone) {
+public User(Integer id, String name, String email, String password, String phone, UserRole userRole) {
 	super();
 	this.id = id;
 	this.name = name;
 	this.email = email;
 	this.password = password;
 	this.phone = phone;
+	setUserRole(userRole);
 }
 
 public Integer getId() {
@@ -78,6 +83,16 @@ public String getPhone() {
 public void setPhone(String phone) {
 	this.phone = phone;
 }
+
+public UserRole getUserRole() {
+	return UserRole.valueOf(userRole);
+}
+
+public void setUserRole(UserRole userRole) {
+	if (userRole != null) {
+		this.userRole = userRole.getCode();
+	}
+	}
 
 public List<Ticket> getTickets() {
 	return tickets;

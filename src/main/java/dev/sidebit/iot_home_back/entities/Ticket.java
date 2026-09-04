@@ -7,6 +7,7 @@ import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
+import dev.sidebit.iot_home_back.entities.enums.TicketStatus;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -29,6 +30,8 @@ public class Ticket implements Serializable {
 
 	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss'Z'", timezone = "GMT")
 	private Instant moment;
+	
+	private Integer ticketStatus;
 
 	@JsonIgnore
 	@ManyToOne
@@ -38,14 +41,15 @@ public class Ticket implements Serializable {
 	private Ticket() {
 	}
 
-	public Ticket(Integer id, String name, String description, String address, Instant moment,
-			User client) {
+	public Ticket(Integer id, String name, String description, String address, Instant moment, 
+			TicketStatus ticketStatus, User client) {
 		super();
 		this.id = id;
 		this.name = name;
 		this.description = description;
 		this.address = address;
 		this.moment = moment;
+		setTicketStatus(ticketStatus);
 		this.client = client;
 	}
 
@@ -87,6 +91,16 @@ public class Ticket implements Serializable {
 
 	public void setMoment(Instant moment) {
 		this.moment = moment;
+	}	
+
+	public TicketStatus getTicketStatus() {
+		return TicketStatus.valueOf(ticketStatus);
+	}
+
+	public void setTicketStatus(TicketStatus ticketStatus) {
+		if (ticketStatus != null) {
+			this.ticketStatus = ticketStatus.getCode();
+		}
 	}
 
 	public User getClient() {
