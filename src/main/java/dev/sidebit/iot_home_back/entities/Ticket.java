@@ -4,6 +4,9 @@ import java.io.Serializable;
 import java.time.Instant;
 import java.util.Objects;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -14,31 +17,33 @@ import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "tb_ticket")
-public class Ticket implements Serializable {	
+public class Ticket implements Serializable {
 	private static final long serialVersionUID = 1L;
-	
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 	private String name;
 	private String description;
-	private String phone;
 	private String address;
+
+	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss'Z'", timezone = "GMT")
 	private Instant moment;
-	
+
+	@JsonIgnore
 	@ManyToOne
 	@JoinColumn(name = "client_id")
 	private User client;
-	
-	private Ticket() {}
 
-	public Ticket(Integer id, String name, String description, String phone, String address, Instant moment,
+	private Ticket() {
+	}
+
+	public Ticket(Integer id, String name, String description, String address, Instant moment,
 			User client) {
 		super();
 		this.id = id;
 		this.name = name;
 		this.description = description;
-		this.phone = phone;
 		this.address = address;
 		this.moment = moment;
 		this.client = client;
@@ -66,14 +71,6 @@ public class Ticket implements Serializable {
 
 	public void setDescription(String description) {
 		this.description = description;
-	}
-
-	public String getPhone() {
-		return phone;
-	}
-
-	public void setPhone(String phone) {
-		this.phone = phone;
 	}
 
 	public String getAddress() {
@@ -115,5 +112,5 @@ public class Ticket implements Serializable {
 			return false;
 		Ticket other = (Ticket) obj;
 		return Objects.equals(id, other.id);
-	}	
+	}
 }

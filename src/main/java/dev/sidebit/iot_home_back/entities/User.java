@@ -23,18 +23,20 @@ private Integer id;
 private String name;
 private String email;
 private String password;
+private String phone;
 
 @OneToMany(mappedBy = "client")
 private List<Ticket> tickets = new ArrayList<>();
 
 public User() {}
 
-public User(Integer id, String name, String email, String password) {
+public User(Integer id, String name, String email, String password, String phone) {
 	super();
 	this.id = id;
 	this.name = name;
 	this.email = email;
 	this.password = password;
+	this.phone = phone;
 }
 
 public Integer getId() {
@@ -67,6 +69,14 @@ public String getPassword() {
 
 public void setPassword(String password) {
 	this.password = password;
+}
+
+public String getPhone() {
+	return phone;
+}
+
+public void setPhone(String phone) {
+	this.phone = phone;
 }
 
 public List<Ticket> getTickets() {
