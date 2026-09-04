@@ -1,12 +1,15 @@
 package dev.sidebit.iot_home_back.entities;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
 @Entity
@@ -20,6 +23,9 @@ private Integer id;
 private String name;
 private String email;
 private String password;
+
+@OneToMany(mappedBy = "client")
+private List<Ticket> tickets = new ArrayList<>();
 
 public User() {}
 
@@ -61,6 +67,10 @@ public String getPassword() {
 
 public void setPassword(String password) {
 	this.password = password;
+}
+
+public List<Ticket> getTickets() {
+	return tickets;
 }
 
 @Override
