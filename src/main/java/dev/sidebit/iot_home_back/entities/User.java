@@ -3,6 +3,8 @@ package dev.sidebit.iot_home_back.entities;
 import jakarta.persistence.*;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 @Entity
@@ -15,19 +17,22 @@ public class User implements Serializable {
 	private Integer id;
     private String name;
     private String email;
-    private String passwor;
+    private String password;
     private String phone;
     private Boolean active;
+
+	@OneToMany(mappedBy = "client")
+	private List<Ticket> tickets = new ArrayList<>();
     
     public User() {    	
     }
 
-	public User(Integer id, String name, String email, String passwor, String phone, Boolean active) {
+	public User(Integer id, String name, String email, String password, String phone, Boolean active) {
 		super();
 		this.id = id;
 		this.name = name;
 		this.email = email;
-		this.passwor = passwor;
+		this.password = password;
 		this.phone = phone;
 		this.active = active;
 	}
@@ -44,8 +49,8 @@ public class User implements Serializable {
 		return email;
 	}
 
-	public String getPasswor() {
-		return passwor;
+	public String getPassword() {
+		return password;
 	}
 
 	public String getPhone() {
@@ -54,6 +59,10 @@ public class User implements Serializable {
 
 	public Boolean getActive() {
 		return active;
+	}
+
+	public List<Ticket> getTickets() {
+		return tickets;
 	}
 
 	public void setId(Integer id) {
@@ -68,8 +77,8 @@ public class User implements Serializable {
 		this.email = email;
 	}
 
-	public void setPasswor(String passwor) {
-		this.passwor = passwor;
+	public void setPassword(String password) {
+		this.password = password;
 	}
 
 	public void setPhone(String phone) {
@@ -96,7 +105,4 @@ public class User implements Serializable {
 		User other = (User) obj;
 		return Objects.equals(id, other.id);
 	}
-    
-    
-    
 }
