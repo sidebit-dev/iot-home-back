@@ -44,4 +44,10 @@ public class SensorResource {
 		service.delete(id);
 		return ResponseEntity.noContent().build();
 	}
+
+	@PutMapping(value = "/{id}")
+	public ResponseEntity<Sensor> update(@PathVariable Integer id, @RequestBody Sensor obj){
+		obj= service.update(id, obj);
+		return ResponseEntity.ok().body(obj);
+	}
 }
