@@ -2,6 +2,7 @@ package dev.sidebit.iot_home_back.services;
 
 import dev.sidebit.iot_home_back.entities.User;
 import dev.sidebit.iot_home_back.repositories.UserRepository;
+import dev.sidebit.iot_home_back.services.exceptions.ResourceNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -20,7 +21,7 @@ public class UserService {
 
     public User findById(Integer id){
         Optional<User> obj = repository.findById(id);
-        return  obj.get();
+        return obj.orElseThrow(() -> new ResourceNotFoundException(id));
     }
 
     public User insert(User obj){
