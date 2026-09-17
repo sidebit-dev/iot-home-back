@@ -2,8 +2,11 @@ package dev.sidebit.iot_home_back.services;
 
 import dev.sidebit.iot_home_back.entities.User;
 import dev.sidebit.iot_home_back.repositories.UserRepository;
+import dev.sidebit.iot_home_back.services.exceptions.DatabaseException;
 import dev.sidebit.iot_home_back.services.exceptions.ResourceNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -29,7 +32,18 @@ public class UserService {
     }
 
     public void delete(Integer id){
-        repository.deleteById(id);
+        try {
+        	if(repository.existsById(id)) {
+        		repository.deleteById(id);
+        	} else {
+        		throw new ResourceNotFoundException(id);
+        	}            
+//        } catch (EmptyResultDataAccessException e) {
+//            throw new ResourceNotFoundException(id);
+        } catch (DataIntegrityViolationException e) {
+            throw new DatabaseException(e.getMessage());
+        }
+
     }
 
     public User update(Integer id, User obj){
