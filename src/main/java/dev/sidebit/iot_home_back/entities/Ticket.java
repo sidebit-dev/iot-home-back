@@ -135,7 +135,19 @@ public class Ticket implements Serializable {
 		Ticket other = (Ticket) obj;
 		return Objects.equals(id, other.id);
 	}
-    
-    
-    
+
+	@Override
+	public String toString() {
+		return "Ticket{" +
+				"id=" + id +
+				", name='" + name + '\'' +
+				", description='" + description + '\'' +
+				", address='" + address + '\'' +
+				", ticketStatus=" + ticketStatus +
+				", active=" + active +
+				", moment=" + moment +
+				", client=" + client +
+				", sensors=" + sensors +
+				'}';
+	}
 }
