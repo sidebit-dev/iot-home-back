@@ -1,8 +1,11 @@
 package dev.sidebit.iot_home_back.config;
 
+import dev.sidebit.iot_home_back.entities.Sensor;
 import dev.sidebit.iot_home_back.entities.Ticket;
 import dev.sidebit.iot_home_back.entities.User;
+import dev.sidebit.iot_home_back.entities.enums.SensorStatus;
 import dev.sidebit.iot_home_back.entities.enums.TicketStatus;
+import dev.sidebit.iot_home_back.repositories.SensorRepository;
 import dev.sidebit.iot_home_back.repositories.TicketRepository;
 import dev.sidebit.iot_home_back.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,6 +26,9 @@ public class TestConfig implements CommandLineRunner {
     @Autowired
     private TicketRepository ticketRepository;
 
+    @Autowired
+    private SensorRepository sensorRepository;
+
 
     @Override
     public void run(String... args) throws Exception {
@@ -33,7 +39,13 @@ public class TestConfig implements CommandLineRunner {
         Ticket t2 = new Ticket(null, "Instalação de Sensores IR", "Instalar 4 IR's ativos.", "Rua Ladeira Geral, 345", TicketStatus.ANDAMENTO, true, Instant.parse("2019-06-20T19:53:07Z"), u2);
         Ticket t3 = new Ticket(null, "Instalação de Sensores IR", "Instalar 4 IR's ativos.", "Rua Ladeira Geral, 345", TicketStatus.CONCLUIDO, true, Instant.parse("2019-06-20T19:53:07Z"), u1);
 
+        Sensor s1 = new Sensor(null,"IRSF","Sensor lado FRENTE", SensorStatus.ALARME,true, Instant.parse("2019-06-20T19:53:07Z"), t1);
+        Sensor s2 = new Sensor(null,"IRSH","Sensor lado DIREITO", SensorStatus.NORMAL,true, Instant.parse("2019-06-20T19:53:07Z"), t1);
+        Sensor s3 = new Sensor(null,"IRSL","Sensor lado ESQUERDO", SensorStatus.NORMAL,true, Instant.parse("2019-06-20T19:53:07Z"), t1);
+        Sensor s4 = new Sensor(null,"IRSB","Sensor lado TRÁS", SensorStatus.NORMAL,true, Instant.parse("2019-06-20T19:53:07Z"), t1);
+
         userRepository.saveAll(Arrays.asList(u1,u2));
         ticketRepository.saveAll(Arrays.asList(t1, t2, t3));
+        sensorRepository.saveAll(Arrays.asList(s1, s2, s3, s4));
     }
 }

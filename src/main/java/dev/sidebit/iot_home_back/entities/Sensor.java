@@ -2,51 +2,48 @@ package dev.sidebit.iot_home_back.entities;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import dev.sidebit.iot_home_back.entities.enums.SensorStatus;
 import dev.sidebit.iot_home_back.entities.enums.TicketStatus;
 import jakarta.persistence.*;
 
+import java.io.Serial;
 import java.io.Serializable;
 import java.time.Instant;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Objects;
 
 @Entity
-@Table(name="tb_ticket")
-public class Ticket implements Serializable {
-	private static final long serialVersionUID = 1L;
+@Table(name="tb_sensor")
+public class Sensor implements Serializable {
+
+	@Serial
+    private static final long serialVersionUID = 1L;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
     private String name;
     private String description;
-    private String address;
-    private Integer ticketStatus;
+    private Integer sensorStatus;
 	private Boolean active;
 	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss'Z'", timezone = "GMT")
 	private Instant moment;
 
 	@JsonIgnore
 	@ManyToOne
-	@JoinColumn(name = "client_id")
-	private User client;
+	@JoinColumn(name = "ticket_id")
+	private Ticket service;
 
-	@OneToMany(mappedBy = "service")
-	private List<Sensor> sensors = new ArrayList<>();
-
-    public Ticket(){
+    public Sensor(){
 	}
 
-	public Ticket(Integer id, String name, String description, String address, TicketStatus ticketStatus, Boolean active, Instant moment, User client) {
+	public Sensor(Integer id, String name, String description, SensorStatus sensorStatus, Boolean active, Instant moment, Ticket service) {
 		this.id = id;
 		this.name = name;
 		this.description = description;
-		this.address = address;
-		setTicketStatus(ticketStatus);
+		setSensorStatus(sensorStatus);
 		this.active = active;
 		this.moment = moment;
-		this.client = client;
+		this.service = service;
 	}
 
 	public Integer getId() {
@@ -73,25 +70,13 @@ public class Ticket implements Serializable {
 		this.description = description;
 	}
 
-	public String getAddress() {
-		return address;
+	public SensorStatus getSensorStatus() {
+		return SensorStatus.valueOf(sensorStatus);
 	}
 
-	public void setAddress(String address) {
-		this.address = address;
-	}
-
-	public TicketStatus getTicketStatus() {
-		return TicketStatus.valueOf(ticketStatus);
-	}
-
-	public List<Sensor> getSensors() {
-		return sensors;
-	}
-
-	public void setTicketStatus(TicketStatus ticketStatus) {
-		if(ticketStatus != null) {
-			this.ticketStatus = ticketStatus.getCode();
+	public void setSensorStatus(SensorStatus sensorStatus) {
+		if(sensorStatus != null) {
+			this.sensorStatus = sensorStatus.getCode();
 		}
 	}
 
@@ -111,12 +96,12 @@ public class Ticket implements Serializable {
 		this.moment = moment;
 	}
 
-	public User getClient() {
-		return client;
+	public Ticket getService() {
+		return service;
 	}
 
-	public void setClient(User client) {
-		this.client = client;
+	public void setService(Ticket service) {
+		this.service = service;
 	}
 
 	@Override
@@ -132,10 +117,7 @@ public class Ticket implements Serializable {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		Ticket other = (Ticket) obj;
+		Sensor other = (Sensor) obj;
 		return Objects.equals(id, other.id);
 	}
-    
-    
-    
 }

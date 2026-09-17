@@ -1,7 +1,7 @@
 package dev.sidebit.iot_home_back.services;
 
-import dev.sidebit.iot_home_back.entities.Ticket;
-import dev.sidebit.iot_home_back.repositories.TicketRepository;
+import dev.sidebit.iot_home_back.entities.Sensor;
+import dev.sidebit.iot_home_back.repositories.SensorRepository;
 import dev.sidebit.iot_home_back.services.exceptions.ResourceNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -10,17 +10,17 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-public class TicketService {
+public class SensorService {
 
     @Autowired
-    private TicketRepository repository;
+    private SensorRepository repository;
 
-    public List<Ticket> findAll(){
+    public List<Sensor> findAll(){
         return repository.findAll();
     }
 
-    public Ticket findById(Integer id){
-        Optional<Ticket> obj = repository.findById(id);
+    public Sensor findById(Integer id){
+        Optional<Sensor> obj = repository.findById(id);
         return obj.orElseThrow(() -> new ResourceNotFoundException(id));
     }
 }
